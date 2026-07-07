@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: videogallery
+    env: node
+    plan: free
+    buildCommand: |
+      cp package-backend.json package.backend.json
+      npm install
+      npm install --package-lock-only --package=package-backend.json || true
+      npm install express mongoose cors dotenv helmet express-rate-limit
+      npm run build
+    startCommand: node server.js
+    autoDeploy: true
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      - key: PORT
+        value: 10000
+
+      - key: MONGO_URI
+        sync: false
+
+      - key: DB_NAME
+        sync: false
+
+      - key: COLLECTION
+        sync: false
+
+      - key: API_TOKEN
+        sync: false
+
+      - key: ALLOWED_ORIGINS
+        sync: false
